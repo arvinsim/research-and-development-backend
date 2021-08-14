@@ -2,6 +2,8 @@ from typing import Optional
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+
 
 app = FastAPI()
 
@@ -38,3 +40,8 @@ async def create_file(file: bytes = File(...)):
 async def create_upload_file(file: UploadFile = File(...)):
     print(file.filename)
     return {"filename": file.filename}
+
+@app.get("/videostream")
+async def videostream():
+    video_stream_file = "./media/sample_video.m4v"
+    return FileResponse(video_stream_file)
