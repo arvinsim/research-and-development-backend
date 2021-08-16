@@ -31,17 +31,22 @@ def read_root():
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
+
 @app.post("/files/")
 async def create_file(file: bytes = File(...)):
     return {"file_size": len(file)}
 
 
-@app.post("/uploadfile/")
+@app.post("/upload-file/")
 async def create_upload_file(file: UploadFile = File(...)):
     print(file.filename)
     return {"filename": file.filename}
 
-@app.get("/videostream")
-async def videostream():
-    video_stream_file = "./media/sample_video.m4v"
+
+@app.get("/watch/")
+async def watch(v: Optional[int] = None):
+    if v == 2:
+        video_stream_file = "media/video2.mp4"
+    else:
+        video_stream_file = "media/video1.m4v"
     return FileResponse(video_stream_file)
